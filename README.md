@@ -8,7 +8,7 @@ Check it out at: https://nailfile.yachts
 ## Features
 - Fast uploading of many filetypes: JPEG, PNG, GIF, WebP, MP4, WebM, MOV, TXT, MD
 - Uploading files as big as 100MB
-- Using nailfile.yachts as an shareX image(/video/text) host via an .sxcu file
+- <del>Using nailfile.yachts as an shareX image(/video/text) host via an .sxcu file</del>
 - Thats kinda it, maybe funny domain
 - Boating related easter-eggs
 
