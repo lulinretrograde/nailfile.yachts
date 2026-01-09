@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>nailfile.yachts</title>
+    <link rel="icon" type="image/png" href="https://nailfile.yachts/logo.png">
+    <style>
+        * {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        body {
+            background-image: url('https://img.freepik.com/free-photo/fantastic-seascape-with-ripples_1232-424.jpg?t=st=1767976552~exp=1767980152~hmac=b4a7fd037440c53053a02ce9f6c20cb8625e2a4067db018bacm80fd5625897b8');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: white;
+            font-size: 3em;
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff69b4;
+            margin-bottom: 5px;
+        }
+        #dropzone {
+            border: 5px dashed black;
+            padding: 60px;
+            cursor: pointer;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #info {
+            margin-top: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        #info a {
+            color: #ff69b4;
+            text-decoration: none;
+            margin: 0 3px;
+        }
+        #info a:hover {
+            text-decoration: underline;
+        }
+        #file {
+            display: none;
+        }
+        .floating-img {
+            position: fixed;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        #yacht1 {
+            width: 200px;
+        }
+        #yacht2 {
+            width: 150px;
+        }
+        .upload-result {
+            position: fixed;
+            width: 400px;
+            margin: 0;
+            padding: 20px;
+            background: white;
+            border: 3px solid black;
+            z-index: 1500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .result-header {
+            background: #ddd;
+            padding: 10px;
+            margin: -20px -20px 10px -20px;
+            cursor: move;
+            font-weight: bold;
+            user-select: none;
+        }
+        .close-result {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .upload-result img, .upload-result video {
+            max-width: 200px;
+            max-height: 200px;
+            display: block;
+            margin: 10px 0;
+        }
+        .upload-result .text-preview {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .upload-result .md-preview {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+        }
+        #termsLink {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        #termsWindow {
+            position: fixed;
+            width: 400px;
+            background: white;
+            border: 3px solid black;
+            padding: 20px;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        #termsWindow.active {
+            display: block;
+        }
+        #shareXWindow {
+            position: fixed;
+            width: 400px;
+            background: white;
+            border: 3px solid black;
+            padding: 20px;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        #shareXWindow.active {
+            display: block;
+        }
+        #termsHeader {
+            background: #ddd;
+            padding: 10px;
+            margin: -20px -20px 10px -20px;
+            cursor: move;
+            font-weight: bold;
+            user-select: none;
+        }
+        #closeTerms {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #shareXHeader {
+            background: #ddd;
+            padding: 10px;
+            margin: -20px -20px 10px -20px;
+            cursor: move;
+            font-weight: bold;
+            user-select: none;
+        }
+        #closeShareX {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #footer {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        #footer a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+        #logo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            z-index: 500;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+</head>
+<body>
+    <img id="logo" src="nailfile_yacht_logo.png" alt="nailfile.yachts logo">
+    
+    <a href="https://www.youtube.com/watch?v=XpigWvTz1Rs" target="_blank">
+        <img class="floating-img" id="yacht1" src="https://i.pinimg.com/736x/77/72/11/77721181f92cddcbe7d85b3c950e6dca.jpg" alt="yacht">
+    </a>
+    <a href="https://www.youtube.com/watch?v=SlCq0vMSDhQ" target="_blank">
+        <img class="floating-img" id="yacht2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4jKCM1gWbnK3oo9m4qDsEsBSh-ZO0y21A-A&s" alt="boat">
+    </a>
+    
+    <div id="termsWindow">
+        <div id="termsHeader">
+            <span id="closeTerms">&times;</span>
+            Terms and Conditions
+        </div>
+        <div id="termsContent">
+            <h3>Terms and Conditions for nailfile.yachts</h3>
+            <p>By using this service, you agree to the following:</p>
+            <ul>
+                <li>You will use common sense</li>
+                <ul>
+                    <li>I can see what you upload</li>
+                    <li>What you are uploading is on a physical server</li>
+                    <li>As with any uploader of this kind it is possible to guess links to find random uploads</li>
+                </ul>
+                <li>You will only upload content you have the rights to share</li>
+                <li>You will not upload harmful, illegal or copyrighted content</li>
+                <li>I reserve the right to remove any content i don't see fit being on my server</li>
+                <li>I will not notify you if i remove content that fits the criteria for deletion</li>
+                <li>It is not guarranteed that your content stays up forever</li>
+                <li>You are responsible for your uploads</li>
+            </ul>
+            <p>By uploading files and using this site, you accept these terms.</p>
+            <p>you also aggree to watch <a href="https://www.youtube.com/watch?v=Y_8A7-4fjbo" target="_blank">this</a></p>
+            <hr>
+            <p><strong>License Notice:</strong></p>
+            <p>This website is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+            <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GNU General Public License</a> for more details.</p>
+        </div>
+    </div>
+    
+    <div id="shareXWindow">
+        <div id="shareXHeader">
+            <span id="closeShareX">&times;</span>
+            ShareX Setup Instructions
+        </div>
+        <div id="shareXContent">
+            <h3>How to use ShareX with nailfile.yachts</h3>
+            <ol>
+                <li>Download and install <a href="https://getsharex.com/" target="_blank">ShareX</a></li>
+                <li>Click the "Download ShareX Config" link to download the .sxcu file</li>
+                <li>Double-click the downloaded .sxcu file to import it into ShareX</li>
+                <li>In ShareX, go to: Destinations → Custom uploader settings</li>
+                <li>Select "nailfile.yachts" from the list</li>
+                <li>Go to: Destinations → Image uploader → Custom uploader → nailfile.yachts</li>
+                <li>Done! Now when you capture screenshots, they'll upload automatically</li>
+            </ol>
+            <p><strong>Tip:</strong> You can also set it for file uploads and text uploads in the Destinations menu.</p>
+        </div>
+    </div>
+    
+    <div id="header">
+        <div id="headerContent">
+            <h1>nailfile.yachts</h1> <a id="githubLink" href="https://github.com/tr1rd/nailfile.yachts" target="_blank">GitHub</a>
+        </div>
+        <img id="logo" src="https://nailfile.yachts/logo.png" alt="" onerror="this.style.display='none'">
+    </div>
+    <div id="termsLink">Terms and Conditions</div>
+    <br>
+    <input type="file" id="file" multiple accept="image/*,video/*,text/plain,.md">
+    <div id="dropzone">Click or drag files here</div>
+    <div id="info">
+        100MB per upload | Allowed formats: 
+        <a href="https://en.wikipedia.org/wiki/JPEG" target="_blank">JPEG</a>, 
+        <a href="https://en.wikipedia.org/wiki/PNG" target="_blank">PNG</a>, 
+        <a href="https://en.wikipedia.org/wiki/GIF" target="_blank">GIF</a>, 
+        <a href="https://en.wikipedia.org/wiki/WebP" target="_blank">WebP</a>, 
+        <a href="https://en.wikipedia.org/wiki/MP4_file_format" target="_blank">MP4</a>, 
+        <a href="https://en.wikipedia.org/wiki/WebM" target="_blank">WebM</a>, 
+        <a href="https://en.wikipedia.org/wiki/QuickTime_File_Format" target="_blank">MOV</a>, 
+        <a href="https://en.wikipedia.org/wiki/Text_file" target="_blank">TXT</a>, 
+        <a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">MD</a>
+        <br>
+        <a id="shareXLink" href="#">Download ShareX Config</a>
+    </div>
+    <div id="result"></div>
+    
+    <div id="footer">
+        This masterclass of web development is brought to you by: <a href="https://sl00.net" target="_blank">sl00.net</a>
+    </div>
+    
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file');
+        const maxSize = 100 * 1024 * 1024;
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm', 'video/quicktime', 'text/plain'];
+        
+        const termsWindow = document.getElementById('termsWindow');
+        const termsHeader = document.getElementById('termsHeader');
+        const termsLink = document.getElementById('termsLink');
+        const closeTerms = document.getElementById('closeTerms');
+        let isDragging = false;
+        let dragOffsetX, dragOffsetY;
+        let termsX = 300, termsY = 200;
+        
+        const shareXWindow = document.getElementById('shareXWindow');
+        const shareXHeader = document.getElementById('shareXHeader');
+        const shareXLink = document.getElementById('shareXLink');
+        const closeShareX = document.getElementById('closeShareX');
+        let isDraggingShareX = false;
+        let dragOffsetXShareX, dragOffsetYShareX;
+        let shareXX = 350, shareXY = 250;
+        
+        termsLink.onclick = () => {
+            termsWindow.classList.add('active');
+            termsX = 300;
+            termsY = 200;
+            termsWindow.style.left = termsX + 'px';
+            termsWindow.style.top = termsY + 'px';
+        };
+        
+        closeTerms.onclick = () => termsWindow.classList.remove('active');
+        
+        shareXLink.onclick = (e) => {
+            e.preventDefault();
+            const link = document.createElement('a');
+            link.href = 'nailfile-yachts.sxcu';
+            link.download = 'nailfile-yachts.sxcu';
+            link.click();
+            shareXWindow.classList.add('active');
+            shareXX = 350;
+            shareXY = 250;
+            shareXWindow.style.left = shareXX + 'px';
+            shareXWindow.style.top = shareXY + 'px';
+        };
+        
+        closeShareX.onclick = () => shareXWindow.classList.remove('active');
+        
+        shareXHeader.onmousedown = (e) => {
+            isDraggingShareX = true;
+            dragOffsetXShareX = e.clientX - shareXX;
+            dragOffsetYShareX = e.clientY - shareXY;
+        };
+        
+        document.onmousemove = (e) => {
+            if (isDragging) {
+                termsX = e.clientX - dragOffsetX;
+                termsY = e.clientY - dragOffsetY;
+                termsWindow.style.left = termsX + 'px';
+                termsWindow.style.top = termsY + 'px';
+            }
+            if (isDraggingShareX) {
+                shareXX = e.clientX - dragOffsetXShareX;
+                shareXY = e.clientY - dragOffsetYShareX;
+                shareXWindow.style.left = shareXX + 'px';
+                shareXWindow.style.top = shareXY + 'px';
+            }
+        };
+        
+        document.onmouseup = () => {
+            isDragging = false;
+            isDraggingShareX = false;
+        };
+        
+        termsHeader.onmousedown = (e) => {
+            isDragging = true;
+            dragOffsetX = e.clientX - termsX;
+            dragOffsetY = e.clientY - termsY;
+        };
+        
+        const yacht1El = document.getElementById('yacht1');
+        const yacht2El = document.getElementById('yacht2');
+        const yachts = [
+            { el: yacht1El, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random() - 0.5) * 3, vy: (Math.random() - 0.5) * 3, w: 200, h: 150 },
+            { el: yacht2El, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random() - 0.5) * 3, vy: (Math.random() - 0.5) * 3, w: 150, h: 112 }
+        ];
+        
+        function animateYachts() {
+            yachts.forEach((yacht, i) => {
+                yacht.x += yacht.vx;
+                yacht.y += yacht.vy;
+                
+                if (yacht.x <= 0 || yacht.x >= window.innerWidth - yacht.w) yacht.vx *= -1;
+                if (yacht.y <= 0 || yacht.y >= window.innerHeight - yacht.h) yacht.vy *= -1;
+                
+                if (termsWindow.classList.contains('active')) {
+                    const twRect = { x: termsX, y: termsY, w: 400, h: 300 };
+                    if (yacht.x < twRect.x + twRect.w && yacht.x + yacht.w > twRect.x &&
+                        yacht.y < twRect.y + twRect.h && yacht.y + yacht.h > twRect.y) {
+                        if (Math.abs(yacht.vx) > Math.abs(yacht.vy)) yacht.vx *= -1;
+                        else yacht.vy *= -1;
+                    }
+                }
+                
+                yachts.forEach((other, j) => {
+                    if (i !== j) {
+                        const dx = yacht.x - other.x;
+                        const dy = yacht.y - other.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 150) {
+                            const tempVx = yacht.vx;
+                            const tempVy = yacht.vy;
+                            yacht.vx = other.vx;
+                            yacht.vy = other.vy;
+                            other.vx = tempVx;
+                            other.vy = tempVy;
+                        }
+                    }
+                });
+                
+                yacht.el.style.left = yacht.x + 'px';
+                yacht.el.style.top = yacht.y + 'px';
+            });
+            
+            requestAnimationFrame(animateYachts);
+        }
+        
+        animateYachts();
+        
+        dropzone.addEventListener('click', () => fileInput.click());
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+        
+        dropzone.addEventListener('drop', (e) => {
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        function handleFiles(files) {
+            for (let file of files) {
+                if (!validateFile(file)) continue;
+                uploadFile(file);
+            }
+        }
+        
+        function validateFile(file) {
+            const result = document.getElementById('result');
+            const ext = file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(file.type) && !['md', 'txt'].includes(ext)) {
+                result.innerHTML += '<p>Error: ' + file.name + ' - Only images, videos, text, and markdown files allowed</p>';
+                return false;
+            }
+            
+            if (file.size > maxSize) {
+                result.innerHTML += '<p>Error: ' + file.name + ' - File too large (max 100MB)</p>';
+                return false;
+            }
+            
+            return true;
+        }
+        
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            const result = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/upload.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.url) {
+                    const div = document.createElement('div');
+                    div.className = 'upload-result';
+                    
+                    // Random position avoiding edges
+                    const x = Math.random() * (window.innerWidth - 450) + 25;
+                    const y = Math.random() * (window.innerHeight - 400) + 25;
+                    div.style.left = x + 'px';
+                    div.style.top = y + 'px';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'result-header';
+                    const closeBtn = document.createElement('span');
+                    closeBtn.className = 'close-result';
+                    closeBtn.textContent = '×';
+                    closeBtn.onclick = () => div.remove();
+                    header.appendChild(closeBtn);
+                    header.append('Upload Complete');
+                    div.appendChild(header);
+                    
+                    let isDraggingResult = false;
+                    let dragX, dragY, currentX = x, currentY = y;
+                    header.onmousedown = (e) => {
+                        isDraggingResult = true;
+                        dragX = e.clientX - currentX;
+                        dragY = e.clientY - currentY;
+                    };
+                    document.addEventListener('mousemove', (e) => {
+                        if (isDraggingResult) {
+                            currentX = e.clientX - dragX;
+                            currentY = e.clientY - dragY;
+                            div.style.left = currentX + 'px';
+                            div.style.top = currentY + 'px';
+                        }
+                    });
+                    document.addEventListener('mouseup', () => isDraggingResult = false);
+                    
+                    const link = document.createElement('a');
+                    link.href = data.url;
+                    link.target = '_blank';
+                    link.textContent = data.url;
+                    div.appendChild(link);
+                    
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+                        const img = document.createElement('img');
+                        img.src = data.url;
+                        div.appendChild(img);
+                    } else if (['mp4', 'webm', 'mov'].includes(ext)) {
+                        const video = document.createElement('video');
+                        video.src = data.url;
+                        video.controls = true;
+                        div.appendChild(video);
+                    } else if (ext === 'txt') {
+                        const textDiv = document.createElement('div');
+                        textDiv.className = 'text-preview';
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            textDiv.textContent = e.target.result.substring(0, 500) + (e.target.result.length > 500 ? '...' : '');
+                        };
+                        reader.readAsText(file);
+                        div.appendChild(textDiv);
+                    } else if (ext === 'md') {
+                        const mdDiv = document.createElement('div');
+                        mdDiv.className = 'md-preview';
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const text = e.target.result.substring(0, 1000);
+                            mdDiv.innerHTML = marked.parse(text) + (e.target.result.length > 1000 ? '<p>...</p>' : '');
+                        };
+                        reader.readAsText(file);
+                        div.appendChild(mdDiv);
+                    }
+                    
+                    document.body.appendChild(div);
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error uploading ' + file.name);
+            }
+        }
+    </script>
+</body>
+</html>
