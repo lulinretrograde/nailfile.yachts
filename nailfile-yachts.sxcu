@@ -1,0 +1,10 @@
+{
+  "Version": "13.7.0",
+  "Name": "nailfile.yachts",
+  "DestinationType": "ImageUploader, FileUploader",
+  "RequestMethod": "POST",
+  "RequestURL": "https://nailfile.yachts/upload.php",
+  "Body": "MultipartFormData",
+  "FileFormName": "file",
+  "URL": "$json:url$"
+}
